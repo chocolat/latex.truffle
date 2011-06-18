@@ -1,0 +1,10 @@
+(name Description)
+
+(trigger
+    (tab desc))
+
+(only-in text.tex.latex)
+
+(snippet [\begin{description}
+	\item[%{1}] %{0}
+\end{description}])

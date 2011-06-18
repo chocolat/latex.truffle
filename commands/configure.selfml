@@ -1,0 +1,16 @@
+(trigger
+    (key [[alt][cmd],]))
+
+(name Preferences…)
+
+(only-in text.tex.latex)
+
+(input nothing)
+
+(output tooltip)
+
+(save nothing)
+
+(script [# just to remind you of some useful environment variables
+# see Help / Environment Variables for the full list
+configure.py])

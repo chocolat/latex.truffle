@@ -1,0 +1,14 @@
+(trigger
+    (key [[cmd]B]))
+
+(name Bold)
+
+(only-in text.tex.latex)
+
+(input selection word)
+
+(output snippet)
+
+(save nothing)
+
+(script [toggle_style.rb -style=textbf])

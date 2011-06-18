@@ -1,0 +1,70 @@
+(trigger)
+
+(name [BibDesk Completion])
+
+(only-in meta.citation.latex)
+
+(input selection word)
+
+(output replace-selected)
+
+(save nothing)
+
+(script [if [[ -z $TM_SELECTED_TEXT ]]
+   then 
+# If the cursor is inside empty braces {}, then offer
+# a list of all bibliography items. In that case, 
+# the variable $phrase is not being set.
+	prev_ch=${TM_CURRENT_LINE:$TM_LINE_INDEX-1:1}
+	if [[ $prev_ch != '{' ]]
+		then phrase=$TM_CURRENT_WORD
+	fi
+   else phrase=$TM_SELECTED_TEXT
+fi
+if [[ -z $phrase ]]
+	then 
+# Case where $phrase is not defined
+
+res=`osascript <<EOF
+tell application "Bibdesk"
+	set publist to get displayed publications of the first item of documents
+	set candidates to {}
+		repeat with anItem in publist
+		set candidates to candidates & ((cite key of anItem) & " % " & (last name of author of anItem) & ", " & (title of anItem))
+		end repeat
+	end tell
+	tell application "System Events"
+		activate
+		choose from list candidates
+	end tell
+EOF`
+	else 
+# Case where $phrase is defined
+
+res=`osascript <<EOF
+	tell application "Bibdesk" to set candidates to search for "$phrase" with for completion
+	tell application "System Events"
+		activate
+		choose from list candidates
+	end tell
+EOF`
+fi
+# If an error occurs, $? stores the return code.
+errorcode=$?
+# return control to TextMate
+osascript -e 'tell app "TextMate" to activate' &>/dev/null &
+# If user presses Cancel, then applescript returns false. 
+if [[ (${res:0:5} == false) || ($errorcode != 0) ]]
+	then exit_discard
+fi
+
+res=`perl -pe <<<$res 's/^(.*?)(\s*)%.*/$1/'` # strip comment
+res="${res//\\\\/\\\\}"                       # \ -> \\
+res="${res//$/\\$}"                           # $ -> \$
+
+echo -n $res
+#if [[ -z $TM_SELECTED_TEXT ]] && [[ -n $phrase ]]
+#   then echo -n ${res:${#TM_CURRENT_WORD}}
+#   else echo -n ${res}
+#fi
+#])

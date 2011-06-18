@@ -1,0 +1,8 @@
+(name [left…right — \left…\right])
+
+(trigger
+    (key [[ctrl][shift]L]))
+
+(only-in text.tex.latex)
+
+(snippet [%{TM_SELECTED_TEXT/(.*)(.)/\\left$1\\right$2/}])

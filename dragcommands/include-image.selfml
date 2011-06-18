@@ -1,0 +1,34 @@
+(name [Include Image])
+
+(only-in text.tex.latex)
+
+(output snippet)
+
+(file-extensions jpg jpeg pdf eps png)
+
+(script [#!/usr/bin/env ruby
+require 'pathname'
+require "#{ENV['TM_BUNDLE_SUPPORT']}/lib/LaTeXUtils.rb"
+filename = ENV["TM_DROPPED_FILEPATH"]
+relative_to = ENV["TM_DIRECTORY"]
+startfile = ENV['TM_LATEX_MASTER'] || ENV['TM_FILEPATH']
+master = Pathname.new(LaTeX.master(startfile))
+unless master.absolute?
+  master = master.expand_path(ENV['TM_PROJECT_DIRECTORY'])
+end
+path = Pathname.new(filename).relative_path_from(master.dirname)
+case ENV['TM_MODIFIER_FLAGS']
+when /OPTION/
+	puts ["\\\\begin{center}",
+	" \\\\includegraphics[height=\${1:3in}]{#{path}}",
+"\\\\end{center}"].join("\n")
+when /SHIFT/
+  puts "\\\\includegraphics[height=\${1:3in}]{#{path}}"
+else
+  puts ["\\\\begin{figure}[\${1:htbp}]",
+"	\\\\centering",
+"		\\\\includegraphics[height=\${2:3in}]{#{path}}",
+"	\\\\caption{\${4:caption}}",
+"	\\\\label{fig:\${5:#{path.to_s.gsub(/(\.[^.]*$)|(\.\.\/)/,"").gsub(/\//,"_")}}}",
+"\\\\end{figure}"].join("\n")
+end])

@@ -1,0 +1,120 @@
+(detector
+    (content-matches [This is (pdf|pdfe)?TeXk?, Version ]))
+
+(folding
+    (start [/\*\*|\(\s*$])
+    (stop [\*\*/|^\s*\)]))
+
+(in [text.tex.latex.beamer meta.function.frametitle.latex]
+    (symbol-list
+        (transformation `
+		s/^\\frametitle\*?(?:\[[^]]*\])?\{(.+)\}/‚ÄÉ‚ÄÉ‚ÄÉ‚ÄÉfr: $1/; # \frametitle
+	`)))
+
+(in [text.tex.latex meta.citation.latex])
+
+(in text.tex
+    (shell-variables
+        (TM_COMMENT_START [% ]))
+    (comment.line [% ]))
+
+(in [text.tex constant.character.escape.tex])
+
+(in [text.tex.latex meta.reference.label])
+
+(in text.bibtex
+    (pair "
+        "
+        (smart-typing)
+        (highlight))
+    (pair `[`
+        `]`
+        (smart-typing)
+        (highlight))
+    (pair [(]
+        [)]
+        (smart-typing)
+        (highlight))
+    (pair [{]
+        [}]
+        (smart-typing)
+        (highlight)))
+
+(in text.tex.latex
+    (pair [`]
+        '
+        (smart-typing)
+        (highlight))
+    (pair $
+        $
+        (smart-typing)
+        (highlight))
+    (pair `[`
+        `]`
+        (smart-typing)
+        (highlight))
+    (pair [{]
+        [}]
+        (smart-typing)
+        (highlight))
+    (pair “
+        ”
+        (smart-typing)
+        (highlight))
+    (pair [(]
+        [)]
+        (smart-typing)
+        (highlight))
+    (pair "
+        "
+        (smart-typing)
+        (highlight))
+    (indentation.decrease [^\s*\\end(\{.*\})?$])
+    (indentation.increase [^\s*\\begin\{.*\}]))
+
+(in [text.tex.latex string.quoted.double, text.tex.latex string.quoted.single]
+    (pair “
+        ”
+        (smart-typing)
+        (highlight))
+    (pair `[`
+        `]`
+        (smart-typing)
+        (highlight))
+    (pair [`]
+        '
+        (smart-typing))
+    (pair [(]
+        [)]
+        (smart-typing)
+        (highlight))
+    (pair $
+        $
+        (smart-typing)
+        (highlight))
+    (pair [{]
+        [}]
+        (smart-typing)
+        (highlight)))
+
+(in [text.tex string.quoted]
+    (spellchecking))
+
+(in [text.tex comment]
+    (no-spellchecking))
+
+(in [text.tex.latex meta.function.section.latex]
+    (symbol-list
+        (transformation `
+		s/^\\part\*?(?:\[[^]]*\])?\{(.+)\}/$1/; # \part
+		s/^\\chapter\*?(?:\[[^]]*\])?\{(.+)\}/‚ÄÉ$1/; # \part
+		s/^\\section\*?(?:\[[^]]*\])?\{(.+)\}/‚ÄÉ‚ÄÉ$1/; # \section
+		s/^\\subsection\*?(?:\[[^]]*\])?\{(.+)\}/‚ÄÉ‚ÄÉ‚ÄÉ$1/; # \section
+		s/^\\subsubsection\*?(?:\[[^]]*\])?\{(.+)\}/‚ÄÉ‚ÄÉ‚ÄÉ‚ÄÉ$1/; # \section
+		s/^\\paragraph\*?(?:\[[^]]*\])?\{(.+)\}/‚ÄÉ‚ÄÉ‚ÄÉ‚ÄÉ‚ÄÉ$1/; # \paragraph
+		s/^\\subparagraph\*?(?:\[[^]]*\])?\{(.+)\}/‚ÄÉ‚ÄÉ‚ÄÉ‚ÄÉ‚ÄÉ‚ÄÉ$1/; # \paragraph
+		s/^\\.*\{(.+)\}/$1/;     # take care of everything else
+	`)))
+
+(in [text.tex.latex comment.line.percentage.semicolon.texshop.tex]
+    (symbol-list))

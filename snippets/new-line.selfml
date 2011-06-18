@@ -1,0 +1,9 @@
+(name [Add Row])
+
+(trigger
+    (key [[cancel]]))
+
+(only-in [text.tex.latex meta.function.environment.tabular.latex])
+
+(snippet [\\
+%{0}%{TM_CURRENT_LINE/^[^&]+|[^&]+$|([^&]+)/ (?1: )/g}])

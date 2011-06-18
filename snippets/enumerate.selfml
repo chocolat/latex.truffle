@@ -1,0 +1,10 @@
+(name Enumerate)
+
+(trigger
+    (tab enum))
+
+(only-in text.tex.latex)
+
+(snippet [\begin{enumerate}
+	\item %{0}
+\end{enumerate}])

@@ -1,0 +1,54 @@
+(root text.tex.latex.memoir
+    (zone meta.function.memoir-fbox.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(framed|shaded|leftbar)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(\4)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $self)))
+    (zone meta.function.memoir-verbatim.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)((?:fboxv|boxedv|V)erbatim)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(\4)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex))))
+    (zone meta.function.memoir-alltt.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(alltt)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(alltt)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (zone support.function.general.tex
+                (match
+                    (regex [(\\)[A-Za-z]+]
+                        (1 punctuation.definition.function.tex))))))
+    (include text.tex.latex))

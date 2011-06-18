@@ -1,0 +1,116 @@
+(root text.bibtex
+    (zone comment.line.at-sign.bibtex
+        (start
+            (regex @Comment
+                (0 punctuation.definition.comment.bibtex)))
+        (end
+            (regex $\n?)))
+    (zone meta.string-constant.braces.bibtex
+        (start
+            (regex [((@)String)\s*(\{)\s*([a-zA-Z]*)]
+                (3 punctuation.section.string-constant.begin.bibtex)
+                (4 variable.other.bibtex)
+                (1 keyword.other.string-constant.bibtex)
+                (2 punctuation.definition.keyword.bibtex)))
+        (end
+            (regex [\}]
+                (0 punctuation.section.string-constant.end.bibtex)))
+        (subzones
+            (include @string_content)))
+    (zone meta.string-constant.parenthesis.bibtex
+        (start
+            (regex [((@)String)\s*(\()\s*([a-zA-Z]*)]
+                (3 punctuation.section.string-constant.begin.bibtex)
+                (4 variable.other.bibtex)
+                (1 keyword.other.string-constant.bibtex)
+                (2 punctuation.definition.keyword.bibtex)))
+        (end
+            (regex [\)]
+                (0 punctuation.section.string-constant.end.bibtex)))
+        (subzones
+            (include @string_content)))
+    (zone meta.entry.braces.bibtex
+        (start
+            (regex [((@)[a-zA-Z]+)\s*(\{)\s*([^\s,]*)]
+                (3 punctuation.section.entry.begin.bibtex)
+                (4 entity.name.type.entry-key.bibtex)
+                (1 keyword.other.entry-type.bibtex)
+                (2 punctuation.definition.keyword.bibtex)))
+        (end
+            (regex [\}]
+                (0 punctuation.section.entry.end.bibtex)))
+        (subzones
+            (zone meta.key-assignment.bibtex
+                (start
+                    (regex [([a-zA-Z]+)\s*(\=)]
+                        (1 string.unquoted.key.bibtex)
+                        (2 punctuation.separator.key-value.bibtex)))
+                (end
+                    (regex [(?=[,}])]))
+                (subzones
+                    (include @string_content)
+                    (include @integer)))))
+    (zone meta.entry.parenthesis.bibtex
+        (start
+            (regex [((@)[a-zA-Z]+)\s*(\()\s*([^\s,]*)]
+                (3 punctuation.section.entry.begin.bibtex)
+                (4 entity.name.type.entry-key.bibtex)
+                (1 keyword.other.entry-type.bibtex)
+                (2 punctuation.definition.keyword.bibtex)))
+        (end
+            (regex [\)]
+                (0 punctuation.section.entry.end.bibtex)))
+        (subzones
+            (zone meta.key-assignment.bibtex
+                (start
+                    (regex [([a-zA-Z]+)\s*(\=)]
+                        (1 string.unquoted.key.bibtex)
+                        (2 punctuation.separator.key-value.bibtex)))
+                (end
+                    (regex [(?=[,)])]))
+                (subzones
+                    (include @string_content)
+                    (include @integer)))))
+    (zone comment.block.bibtex
+        (start
+            (regex [[^@\n]]))
+        (end
+            (regex [(?=@)]))))
+
+(collection integer
+    (zone constant.numeric.bibtex
+        (match
+            (regex \d+))))
+
+(collection nested_braces
+    (zone
+        (start
+            (regex [\{]
+                (0 punctuation.definition.group.begin.bibtex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.group.end.bibtex)))
+        (subzones
+            (include @nested_braces))))
+
+(collection string_content
+    (zone string.quoted.double.bibtex
+        (start
+            (regex "
+                (0 punctuation.definition.string.begin.bibtex)))
+        (end
+            (regex "
+                (0 punctuation.definition.string.end.bibtex)))
+        (subzones
+            (include @nested_braces)))
+    (zone string.quoted.other.braces.bibtex
+        (start
+            (regex [\{]
+                (0 punctuation.definition.string.begin.bibtex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.string.end.bibtex)))
+        (subzones
+            (zone invalid.illegal.at-sign.bibtex
+                (match @))
+            (include @nested_braces))))

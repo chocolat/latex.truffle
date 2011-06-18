@@ -1,0 +1,8 @@
+(name Table)
+
+(trigger
+    (tab table))
+
+(only-in text.tex.latex)
+
+(snippet [%{1="Table"}~\ref{%{2="tab"}}%{0}])

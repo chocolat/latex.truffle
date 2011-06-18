@@ -1,0 +1,10 @@
+(name Split)
+
+(trigger
+    (tab spl))
+
+(only-in text.tex.latex)
+
+(snippet [\begin{split}
+	%{0}
+\end{split}])

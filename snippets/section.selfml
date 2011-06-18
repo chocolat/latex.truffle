@@ -1,0 +1,9 @@
+(name Section)
+
+(trigger
+    (tab section))
+
+(only-in text.tex.latex)
+
+(snippet [%{1="Section"}~\ref{%{2="sec"}}%{0}
+])

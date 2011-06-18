@@ -1,0 +1,62 @@
+(trigger
+    (key [[cancel]]))
+
+(name [New Item])
+
+(only-in [text.tex.latex meta.function.environment])
+
+(input document)
+
+(output snippet)
+
+(save nothing)
+
+(script [#!/usr/bin/env ruby
+#
+# Produces the right enumeration command for each environment.
+# For instance in a itemize environment, will produce \item
+# while in a questions environment will produce \question
+#
+linesbefore = ENV['TM_LINE_NUMBER'].to_i-1
+columns = ENV['TM_COLUMN_NUMBER'].to_i-1
+textArray = STDIN.readlines
+myStr = textArray[0..linesbefore-1].join
+myStr << textArray[linesbefore].slice(0..columns-1)
+theArray = Array.new
+theRegexp = Regexp.new('(\\\begin\{|\\\end\{)(\w+[*]?)(\})')
+toInsertNoBeamer = { "itemize" => "\\item $1", "enumerate" => "\\item $1", "description" => "\\item[${1:label}] ${2:description}", "parts" => "\\part $1", "questions" => "\\question $1" }
+toInsertBeamer = { "itemize" => "\\item<${1:+-}> $2", "enumerate" => "\\item<${1:+-}> $2", "description" => "\\item<+->[${1:label}] ${2:description}", "overprint" => "\\onslide<${1:+}>\n\t$2", "overlayarea" => "\\only<${1:+}> $2" }
+toInsert = /beamer/.match(ENV['TM_SCOPE'].to_s) ? toInsertBeamer : toInsertNoBeamer
+results = myStr.scan(theRegexp)
+if (results)
+  results.each{|e|
+    if (e[0] == "\\begin\{")
+      theArray << e[1]
+    elsif (e[0] == "\\end\{")
+      if (theArray.last == e[1])
+        theArray.pop
+      else
+        puts("Badly nested begin-end blocks")
+        exit 1
+      end
+    else
+      puts("Problem:",e[0])
+      exit 1
+    end
+  }
+  envName = theArray.pop
+  str_to_add = "\n"
+  if (/\\begin\{/.match(textArray[linesbefore]))
+    str_to_add << "\t"
+  end
+  if (toInsert.has_key?(envName))
+    str_to_add << toInsert[envName]
+  elsif ["cases","align","aligned","gather","gathered","split"].include?(envName)
+    str_to_add = "\\\\\\\\" + str_to_add
+  else
+    str_to_add << "\\item "
+  end
+  print str_to_add
+else
+  print("\n")
+end])

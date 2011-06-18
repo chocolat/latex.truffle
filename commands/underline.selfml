@@ -1,0 +1,14 @@
+(trigger
+    (key [[cmd]U]))
+
+(name Underline)
+
+(only-in text.tex.latex)
+
+(input selection word)
+
+(output snippet)
+
+(save nothing)
+
+(script [toggle_style.rb -style=underline])

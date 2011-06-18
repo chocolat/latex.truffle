@@ -1,0 +1,11 @@
+(name [Environment — \begin{}…\end{}])
+
+(trigger
+    (key [[ctrl][shift][cmd]W]))
+
+(only-in text.tex.latex)
+
+(snippet [%{TM_SELECTED_TEXT/(\s*).*/$1/m}\begin{%{1="environment"}}
+%{TM_SELECTED_TEXT/(.+)|\n\z/(?1:\t$0)/g}
+%{TM_SELECTED_TEXT/(\s*).*/$1/m}\end{%{1="environment"}}
+])

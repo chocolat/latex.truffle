@@ -1,0 +1,8 @@
+(name [\item[description]])
+
+(trigger
+    (tab itd))
+
+(only-in [text.tex.latex meta.function.environment.list])
+
+(snippet [\item[%{1="description"}] %{0="item"}])

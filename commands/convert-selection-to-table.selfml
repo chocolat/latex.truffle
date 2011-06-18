@@ -1,0 +1,30 @@
+(trigger
+    (key [[ctrl][shift][cmd]T]))
+
+(name [Convert Selection to Table])
+
+(only-in text.tex.latex)
+
+(input selection)
+
+(output replace-selected)
+
+(save nothing)
+
+(script [#!/usr/bin/env ruby
+def escape(str)
+  esc_str = str.gsub(/\t/," & ") + "\\\\"
+  esc_str.gsub(/(\d)E([+-]?)(\d{1,2})/) do |m|
+    "#{$1} $\\times 10^{#{$2 =="-" ? "-" : ""}#{$3.to_i}}$"
+  end
+end
+# First we change all space sequences of length $TM_TAB_SIZE to tabs.
+data=STDIN.read.strip.gsub(/ {#{ENV['TM_TAB_SIZE'].to_i}}/,"\t").split("\n")
+first_line = data.shift
+count=first_line.scan(/\t/).length+1;
+result=["\\begin{tabular}{#{"c" * count}}"];
+hl = "\\hline"
+result << hl << escape(first_line) << hl 
+result += data.map{|line| escape(line.strip)}
+result << hl << "\\end{tabular}"
+puts result.join("\n")])

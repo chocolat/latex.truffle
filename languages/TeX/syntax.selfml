@@ -1,0 +1,72 @@
+(root text.tex
+    (zone keyword.control.tex
+        (match
+            (regex [(\\)(backmatter|else|fi|frontmatter|ftrue|mainmatter|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|undefined|vbox|vmode|void|x)?)\b]
+                (1 punctuation.definition.keyword.tex))))
+    (zone meta.catcode.tex
+        (match
+            (regex [((\\)catcode)`(?:\\)?.(=)(\d+)]
+                (3 punctuation.separator.key-value.tex)
+                (4 constant.numeric.category.tex)
+                (1 keyword.control.catcode.tex)
+                (2 punctuation.definition.keyword.tex))))
+    (zone comment.line.percentage.semicolon.texshop.tex
+        (match
+            (regex [(%:).*$\n?]
+                (1 punctuation.definition.comment.tex))))
+    (zone comment.line.percentage.directive.texshop.tex
+        (match
+            (regex [^%!TEX (\S*) =\s*(.*)\s*$])))
+    (zone comment.line.percentage.tex
+        (match
+            (regex [(%).*$\n?]
+                (1 punctuation.definition.comment.tex))))
+    (zone meta.group.braces.tex
+        (start
+            (regex [\{]
+                (0 punctuation.section.group.tex)))
+        (end
+            (regex [\}]
+                (0 punctuation.section.group.tex)))
+        (subzones
+            (include $base)))
+    (zone punctuation.definition.brackets.tex
+        (match
+            (regex [[\[\]]])))
+    (zone string.other.math.block.tex
+        (start
+            (regex \$\$
+                (0 punctuation.definition.string.begin.tex)))
+        (end
+            (regex \$\$
+                (0 punctuation.definition.string.end.tex)))
+        (subzones
+            (include text.tex.math)
+            (include $self)))
+    (zone constant.character.newline.tex
+        (match
+            (regex \\\\)))
+    (zone string.other.math.tex
+        (start
+            (regex \$
+                (0 punctuation.definition.string.begin.tex)))
+        (end
+            (regex \$
+                (0 punctuation.definition.string.end.tex)))
+        (subzones
+            (zone constant.character.escape.tex
+                (match
+                    (regex \\\$)))
+            (include text.tex.math)
+            (include $self)))
+    (zone support.function.general.tex
+        (match
+            (regex [(\\)[A-Za-z@]+]
+                (1 punctuation.definition.function.tex))))
+    (zone constant.character.escape.tex
+        (match
+            (regex [(\\)[^a-zA-Z@]]
+                (1 punctuation.definition.keyword.tex))))
+    (zone meta.placeholder.greek.tex
+        (match
+            (regex [«press a-z and space for greek letter»[a-zA-Z]*]))))

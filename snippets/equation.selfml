@@ -1,0 +1,10 @@
+(name Equation)
+
+(trigger
+    (tab eq))
+
+(only-in text.tex.latex)
+
+(snippet [\begin{equation}
+	%{0}
+\end{equation}])

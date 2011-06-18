@@ -1,0 +1,14 @@
+(trigger
+    (key [[shift][cmd]K]))
+
+(name [Small Caps])
+
+(only-in text.tex.latex)
+
+(input selection word)
+
+(output snippet)
+
+(save nothing)
+
+(script [toggle_style.rb -style=textsc])

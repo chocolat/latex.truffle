@@ -1,0 +1,14 @@
+(trigger
+    (key [[ctrl][shift]H]))
+
+(name Tidy)
+
+(only-in text.tex.latex)
+
+(input document)
+
+(output replace-all)
+
+(save nothing)
+
+(script LaTeXTidy.pl)

@@ -1,0 +1,14 @@
+(trigger
+    (key [[ctrl][alt][cmd]O]))
+
+(name [Jump to Current Line in Viewer])
+
+(only-in text.tex.latex)
+
+(input nothing)
+
+(output nothing)
+
+(save nothing)
+
+(script [texMate.py sync 1])

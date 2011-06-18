@@ -1,0 +1,12 @@
+(name [Align(ed)])
+
+(trigger
+    (tab ali))
+
+(only-in text.tex.latex)
+
+(snippet [\begin{align`echo $TM_SCOPE|grep math|
+sed -e 's/.*math.*/ed/'`}
+	%{0}
+\end{align`echo $TM_SCOPE|grep math|
+sed -e 's/.*math.*/ed/'`}])

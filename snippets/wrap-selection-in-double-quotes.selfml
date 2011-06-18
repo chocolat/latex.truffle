@@ -1,0 +1,8 @@
+(name [Double Quotes])
+
+(trigger
+    (key [[ctrl]`]))
+
+(only-in text.tex.latex)
+
+(snippet [``%{TM_SELECTED_TEXT}''])

@@ -1,0 +1,8 @@
+(name [Beamer Overlay Specification])
+
+(trigger
+    (key [[ctrl][shift]<]))
+
+(only-in text.tex.latex.beamer)
+
+(snippet [<%{1="+-"}>])

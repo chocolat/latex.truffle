@@ -1,0 +1,18 @@
+(menu command.watch-document
+    ---
+    command.find-in-texniscope
+    ---
+    (submenu Format command.bold command.italic command.underline command.typewriter command.verb command.small-caps)
+    (submenu Insert command.insert-command-based-on-current-word --- command.insert-environment-closers --- [snippet.begin{}…-end{}] --- snippet.beamer-overlay-specification)
+    (submenu [Wrap Selection In] snippet.wrap-selection-in-environment snippet.wrap-selection-in-double-quotes --- snippet.wrap-in-left--right --- [snippet.displaymath-($$)] [snippet.math-mode-(-)])
+    (submenu [Cross Reference a] snippet.figure snippet.listing snippet.page snippet.section snippet.table)
+    (submenu Environments
+        (submenu Math snippet.equation snippet.unnumbered-equation --- snippet.align [snippet.gather(ed)] snippet.split --- snippet.matrix snippet.cases)
+        (submenu Lists snippet.enumerate snippet.itemize snippet.description))
+    (submenu Sectioning snippet.part snippet.chapter [snippet.section-..-(section)] [snippet.subsection-..-(sub)] [snippet.subsubsection-..-(ssub)] snippet.paragraph snippet.sub-paragraph)
+    (submenu Tables command.convert-selection-to-table snippet.tabular --- snippet.new-line --- command.reformat)
+    (submenu Lists snippet.lines-to-list-environment command.insert-item-based-on-current-environment --- [snippet.item[description]])
+    command.030-latex-tidy
+    ---
+    command.edit-config-file
+    command.configure)

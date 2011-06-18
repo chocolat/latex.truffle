@@ -1,0 +1,9 @@
+(name Page)
+
+(trigger
+    (tab page))
+
+(only-in text.tex.latex)
+
+(snippet [%{1="page"}~\pageref{%{2}}%{0}
+])

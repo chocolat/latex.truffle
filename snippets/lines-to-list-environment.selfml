@@ -1,0 +1,11 @@
+(name [Itemize Lines in Selection])
+
+(trigger
+    (key [[ctrl][shift]L]))
+
+(only-in text.tex.latex)
+
+(snippet [\begin{%{1="itemize"}}
+%{TM_SELECTED_TEXT/^(([^\\]*):\s*)?(.+)$/\n\t\item(?1: [ $2 ]) $3/g}
+\end{%{1="itemize"}}
+])

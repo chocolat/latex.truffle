@@ -1,0 +1,10 @@
+(name [Unnumbered Equation])
+
+(trigger
+    (key `[ctrl][`))
+
+(only-in text.tex.latex)
+
+(snippet [\[
+	%{0}
+\]])

@@ -1,0 +1,542 @@
+(root text.tex.latex
+    (zone meta.space-after-command.latex
+        (match
+            (regex [(?=\s)(?<=\\[\w@]|\\[\w@]{2}|\\[\w@]{3}|\\[\w@]{4}|\\[\w@]{5}|\\[\w@]{6})\s])))
+    (zone meta.preamble.latex
+        (start
+            (regex `((\\)(?:usepackage|documentclass))(?:(\[)([^\]]*)(\]))?(\{)`
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 keyword.control.preamble.latex)
+                (6 punctuation.definition.arguments.begin.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.arguments.end.latex)))
+        (subzones
+            (include $self)))
+    (zone meta.include.latex
+        (start
+            (regex [((\\)(?:include|input))(\{)]
+                (3 punctuation.definition.arguments.begin.latex)
+                (1 keyword.control.include.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.arguments.end.latex)))
+        (subzones
+            (include $self)))
+    (zone meta.function.section.latex
+        (start
+            (regex `(?x)
+				(													# Capture 1
+					(\\)											# Marker
+					(?:
+						(?:sub){0,2}section							# Functions
+					  | (?:sub)?paragraph
+					  | chapter|part|addpart
+					  | addchap|addsec|minisec
+					)
+					(?:\*)?											# Optional Unnumbered
+				)
+				(?:
+					(\[)([^\[]*?)(\])								# Optional Title
+				)??
+				(\{)												# Opening Bracket
+				`
+                (3 punctuation.definition.arguments.optional.begin.latex)
+                (4 entity.name.section.latex)
+                (5 punctuation.definition.arguments.optional.end.latex)
+                (1 support.function.section.latex)
+                (6 punctuation.definition.arguments.begin.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.arguments.end.latex)))
+        (subzones
+            (include $self)))
+    (zone meta.function.embedded.java.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Java)\n?)]
+                (7 punctuation.definition.arguments.optional.end.latex)
+                (3 punctuation.definition.arguments.begin.latex)
+                (8 comment.line.percentage.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (6 punctuation.definition.arguments.optional.begin.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(lstlisting)(\})]
+                (7 punctuation.definition.arguments.optional.end.latex)
+                (3 punctuation.definition.arguments.begin.latex)
+                (8 comment.line.percentage.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (6 punctuation.definition.arguments.optional.begin.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include source.java)))
+    (zone meta.function.embedded.python.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Python)\n?)]
+                (7 punctuation.definition.arguments.optional.end.latex)
+                (3 punctuation.definition.arguments.begin.latex)
+                (8 comment.line.percentage.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (6 punctuation.definition.arguments.optional.begin.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(lstlisting)(\})]
+                (7 punctuation.definition.arguments.optional.end.latex)
+                (3 punctuation.definition.arguments.begin.latex)
+                (8 comment.line.percentage.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (6 punctuation.definition.arguments.optional.begin.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include source.python)))
+    (zone meta.function.embedded.generic.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%.*\n?)?]
+                (7 punctuation.definition.arguments.optional.end.latex)
+                (3 punctuation.definition.arguments.begin.latex)
+                (8 comment.line.percentage.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (6 punctuation.definition.arguments.optional.begin.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(lstlisting)(\})]
+                (7 punctuation.definition.arguments.optional.end.latex)
+                (3 punctuation.definition.arguments.begin.latex)
+                (8 comment.line.percentage.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (6 punctuation.definition.arguments.optional.begin.latex)
+                (2 punctuation.definition.function.latex))))
+    (zone meta.function.verbatim.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)((?:V|v)erbatim|alltt)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(\4)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex))))
+    (zone meta.function.link.url.latex
+        (match
+            (regex [(?:\s*)((\\)(?:url|href))(\{)([^}]*)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 markup.underline.link.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.url.latex)
+                (2 punctuation.definition.function.latex))))
+    (zone meta.function.begin-document.latex
+        (match
+            (regex [(?:\s*)((\\)begin)(\{)(document)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex))))
+    (zone meta.function.end-document.latex
+        (match
+            (regex [(?:\s*)((\\)end)(\{)(document)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex))))
+    (zone meta.function.environment.math.latex
+        (start
+            (regex [(?x)
+					(?:\s*)										# Optional whitespace
+					((\\)begin)									# Marker - Function
+					(\{)										# Open Bracket
+						(
+							(?:
+								align|equation|eqnarray			# Argument
+							  | multline|aligned|alignat
+							  | split|gather|gathered
+							)
+							(?:\*)?								# Optional Unnumbered
+						)
+					(\})										# Close Bracket
+					(\s*\n)?				# Match to end of line absent of content
+				]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [(?x)
+					(?:\s*)										# Optional whitespace
+					((\\)end)									# Marker - Function
+					(\{)										# Open Bracket
+						(\4)				# Previous capture from begin
+					(\})										# Close Bracket
+					(?:\s*\n)?				# Match to end of line absent of content
+				]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $base)))
+    (zone meta.function.environment.tabular.latex
+        (start
+            (regex [(?x)
+					(?:\s*)										# Optional whitespace
+					((\\)begin)									# Marker - Function
+					(\{)										# Open Bracket
+						(array|tabular[xy*]?)
+					(\})										# Close Bracket
+					(\s*\n)?				# Match to end of line absent of content
+				]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [(?x)
+					(?:\s*)										# Optional whitespace
+					((\\)end)									# Marker - Function
+					(\{)										# Open Bracket
+						(\4)				# Previous capture from begin
+					(\})										# Close Bracket
+					(?:\s*\n)?				# Match to end of line absent of content
+				]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (zone punctuation.definition.table.row.latex
+                (match
+                    (regex \\)))
+            (zone meta.row.environment.tabular.latex
+                (start
+                    (regex [(?:^|(?<=\\\\))(?!\\\\|\s*\\end\{(?:tabular|array))]))
+                (end
+                    (regex [(?=\\\\|\s*\\end\{(?:tabular|array))]))
+                (subzones
+                    (zone punctuation.definition.table.cell.latex
+                        (match &))
+                    (zone meta.cell.environment.tabular.latex
+                        (start
+                            (regex [(?:^|(?<=&))((?!&|\\\\|$))]))
+                        (end
+                            (regex [(?=&|\\\\|\s*\\end\{(?:tabular|array))]))
+                        (subzones
+                            (include $base)))
+                    (include $base)))
+            (include $base)))
+    (zone meta.function.environment.list.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(itemize|enumerate|description|list)(\})]
+                (3 punctuation.definition.arguments.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(\4)(\})(?:\s*\n)?]
+                (3 punctuation.definition.arguments.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $base)))
+    (zone meta.function.environment.latex.tikz
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(tikzpicture)(\})]
+                (3 punctuation.definition.arguments.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(tikzpicture)(\})(?:\s*\n)?]
+                (3 punctuation.definition.arguments.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include text.tex.latex.tikz)
+            (include text.tex.latex)))
+    (zone meta.function.environment.general.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(\w+[*]?)(\})]
+                (3 punctuation.definition.arguments.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(\4)(\})(?:\s*\n)?]
+                (3 punctuation.definition.arguments.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $base)))
+    (zone storage.type.function.latex
+        (match
+            (regex [(\\)(newcommand|renewcommand)\b]
+                (1 punctuation.definition.function.latex))))
+    (zone
+        (inner-identifier meta.paragraph.margin.latex)
+        (start
+            (regex [((\\)marginpar)(\{)]
+                (3 punctuation.definition.marginpar.begin.latex)
+                (1 support.function.marginpar.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.marginpar.end.latex)))
+        (subzones
+            (include $base)))
+    (zone
+        (inner-identifier meta.footnote.latex)
+        (start
+            (regex [((\\)footnote)(\{)]
+                (3 punctuation.definition.footnote.begin.latex)
+                (1 support.function.footnote.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.footnote.end.latex)))
+        (subzones
+            (include $base)))
+    (zone meta.function.emph.latex
+        (start
+            (regex [((\\)emph)(\{)]
+                (3 punctuation.definition.emph.begin.latex)
+                (1 support.function.emph.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.emph.end.latex)))
+        (subzones
+            (include $base)))
+    (zone meta.function.textit.latex
+        (start
+            (regex [((\\)textit)(\{)]
+                (3 punctuation.definition.textit.begin.latex)
+                (1 support.function.textit.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.textit.end.latex)
+                (3 punctuation.definition.textit.begin.latex)
+                (1 support.function.textit.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $base)))
+    (zone meta.function.textbf.latex
+        (start
+            (regex [((\\)textbf)(\{)]
+                (3 punctuation.definition.textbf.begin.latex)
+                (1 support.function.textbf.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.textbf.end.latex)
+                (3 punctuation.definition.textbf.begin.latex)
+                (1 support.function.textbf.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $base)))
+    (zone meta.function.texttt.latex
+        (start
+            (regex [((\\)texttt)(\{)]
+                (3 punctuation.definition.texttt.begin.latex)
+                (1 support.function.texttt.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.texttt.end.latex)
+                (3 punctuation.definition.texttt.begin.latex)
+                (1 support.function.texttt.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $base)))
+    (zone meta.scope.item.latex
+        (match
+            (regex [(\\)item\b]
+                (0 keyword.other.item.latex)
+                (1 punctuation.definition.keyword.latex))))
+    (zone meta.citation.latex
+        (start
+            (regex `(?x)
+					(
+						(\\)										# Marker
+						(?:foot)?(?:full)?(?:no)?(?:short)?		# Function Name
+						[cC]ite
+						(?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*
+						\*?											# Optional Unabreviated
+					)
+					(?:(\[)[^\]]*(\]))?								# Optional
+					(?:(\[)[^\]]*(\]))?								#   Arguments
+					(\{)											# Opening Bracket
+				`
+                (7 punctuation.definition.arguments.latex)
+                (3 punctuation.definition.arguments.optional.begin.latex)
+                (4 punctuation.definition.arguments.optional.end.latex)
+                (5 punctuation.definition.arguments.optional.begin.latex)
+                (1 keyword.control.cite.latex)
+                (6 punctuation.definition.arguments.optional.end.latex)
+                (2 punctuation.definition.keyword.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.arguments.latex)
+                (7 punctuation.definition.arguments.latex)
+                (3 punctuation.definition.arguments.optional.begin.latex)
+                (4 punctuation.definition.arguments.optional.end.latex)
+                (5 punctuation.definition.arguments.optional.begin.latex)
+                (1 keyword.control.cite.latex)
+                (6 punctuation.definition.arguments.optional.end.latex)
+                (2 punctuation.definition.keyword.latex)))
+        (subzones
+            (zone constant.other.reference.citation.latex
+                (match
+                    (regex [[\w:.]+])))))
+    (zone meta.reference.label.latex
+        (start
+            (regex [((\\)(?:\w*[r|R]ef\*?))(\{)]
+                (3 punctuation.definition.arguments.begin.latex)
+                (1 keyword.control.ref.latex)
+                (2 punctuation.definition.keyword.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.arguments.begin.latex)))
+        (subzones
+            (zone constant.other.reference.label.latex
+                (match
+                    (regex [[a-zA-Z0-9\.,:/*!^_-]])))))
+    (zone meta.definition.label.latex
+        (start
+            (regex [((\\)label)(\{)]
+                (3 punctuation.definition.arguments.begin.latex)
+                (1 keyword.control.label.latex)
+                (2 punctuation.definition.keyword.latex)))
+        (end
+            (regex [\}]
+                (0 punctuation.definition.arguments.end.latex)))
+        (subzones
+            (zone variable.parameter.definition.label.latex
+                (match
+                    (regex [[a-zA-Z0-9\.,:/*!^_-]])))))
+    (zone meta.function.verb.latex
+        (start
+            (regex [((\\)verb[\*]?)\s*((\\)scantokens)(\{)]
+                (3 support.function.verb.latex)
+                (4 punctuation.definition.verb.latex)
+                (5 punctuation.definition.begin.latex)
+                (1 support.function.verb.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [(\})]
+                (1 punctuation.definition.end.latex)))
+        (subzones
+            (include $self)))
+    (zone meta.function.verb.latex
+        (match
+            (regex [((\\)verb[\*]?)\s*((?<=\s)\S|[^a-zA-Z])(.*?)(\3|$)]
+                (3 punctuation.definition.verb.latex)
+                (4 markup.raw.verb.latex)
+                (5 punctuation.definition.verb.latex)
+                (1 support.function.verb.latex)
+                (2 punctuation.definition.function.latex))))
+    (zone string.quoted.double.european.latex
+        (start
+            (regex ["`]
+                (0 punctuation.definition.string.begin.latex)))
+        (end
+            (regex "'
+                (0 punctuation.definition.string.end.latex)))
+        (subzones
+            (include $base)))
+    (zone string.quoted.double.latex
+        (start
+            (regex [``]
+                (0 punctuation.definition.string.begin.latex)))
+        (end
+            (regex ''|"
+                (0 punctuation.definition.string.end.latex)))
+        (subzones
+            (include $base)))
+    (zone string.quoted.double.guillemot.latex
+        (start
+            (regex ">
+                (0 punctuation.definition.string.begin.latex)))
+        (end
+            (regex "<
+                (0 punctuation.definition.string.end.latex)))
+        (subzones
+            (include $base)))
+    (zone string.quoted.double.guillemot.latex
+        (start
+            (regex "<
+                (0 punctuation.definition.string.begin.latex)))
+        (end
+            (regex ">
+                (0 punctuation.definition.string.end.latex)))
+        (subzones
+            (include $base)))
+    (zone string.other.math.latex
+        (start
+            (regex [\\\(]
+                (0 punctuation.definition.string.begin.latex)))
+        (end
+            (regex [\\\)]
+                (0 punctuation.definition.string.end.latex)))
+        (subzones
+            (include $base)))
+    (zone string.other.math.latex
+        (start
+            (regex `\\\[`
+                (0 punctuation.definition.string.begin.latex)))
+        (end
+            (regex `\\\]`
+                (0 punctuation.definition.string.end.latex)))
+        (subzones
+            (include $base)))
+    (zone invalid.illegal.string.quoted.single.latex
+        (match
+            (regex [(?<!\S)'.*?'])))
+    (zone invalid.illegal.string.quoted.double.latex
+        (match
+            (regex [(?<!\S)".*?"])))
+    (zone constant.character.latex
+        (match
+            (regex [(\\)(text(s(terling|ixoldstyle|urd|e(ction|venoldstyle|rvicemark))|yen|n(ineoldstyle|umero|aira)|c(ircledP|o(py(left|right)|lonmonetary)|urrency|e(nt(oldstyle)?|lsius))|t(hree(superior|oldstyle|quarters(emdash)?)|i(ldelow|mes)|w(o(superior|oldstyle)|elveudash)|rademark)|interrobang(down)?|zerooldstyle|o(hm|ne(superior|half|oldstyle|quarter)|penbullet|rd(feminine|masculine))|d(i(scount|ed|v(orced)?)|o(ng|wnarrow|llar(oldstyle)?)|egree|agger(dbl)?|blhyphen(char)?)|uparrow|p(ilcrow|e(so|r(t(housand|enthousand)|iodcentered))|aragraph|m)|e(stimated|ightoldstyle|uro)|quotes(traight(dblbase|base)|ingle)|f(iveoldstyle|ouroldstyle|lorin|ractionsolidus)|won|l(not|ira|e(ftarrow|af)|quill|angle|brackdbl)|a(s(cii(caron|dieresis|acute|grave|macron|breve)|teriskcentered)|cutedbl)|r(ightarrow|e(cipe|ferencemark|gistered)|quill|angle|brackdbl)|g(uarani|ravedbl)|m(ho|inus|u(sicalnote)?|arried)|b(igcircle|orn|ullet|lank|a(ht|rdbl)|rokenbar)))\b]
+                (1 punctuation.definition.constant.latex))))
+    (zone meta.column-specials.latex
+        (match
+            (regex [(?:<|>)(\{)\$(\})]
+                (1 punctuation.definition.column-specials.begin.latex)
+                (2 punctuation.definition.column-specials.end.latex))))
+    (include text.tex))

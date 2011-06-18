@@ -1,0 +1,8 @@
+(name Figure)
+
+(trigger
+    (tab figure))
+
+(only-in text.tex.latex)
+
+(snippet [%{1="Figure"}~\ref{%{2="fig"}}%{0}])

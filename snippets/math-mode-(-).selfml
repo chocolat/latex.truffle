@@ -1,0 +1,8 @@
+(name [Math Mode — \( … \)])
+
+(trigger
+    (key [[ctrl][shift]M]))
+
+(only-in text.tex.latex)
+
+(snippet [\( %{TM_SELECTED_TEXT}%{1} \)])

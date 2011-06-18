@@ -1,0 +1,8 @@
+(name [Command — \command{…}])
+
+(trigger
+    (key [[ctrl][shift]E]))
+
+(only-in text.tex.latex)
+
+(snippet [\%{1="text%{2=\"bf\"}"}{%{TM_SELECTED_TEXT}}])

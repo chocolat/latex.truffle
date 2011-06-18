@@ -1,0 +1,27 @@
+(root text.tex.latex.beamer
+    (zone meta.function.environment.frame.latex
+        (start
+            (regex [(?:\s*)((\\)begin)(\{)(frame)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (end
+            (regex [((\\)end)(\{)(frame)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 variable.parameter.function.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.be.latex)
+                (2 punctuation.definition.function.latex)))
+        (subzones
+            (include $self)))
+    (zone meta.function.frametitle.latex
+        (match
+            (regex [((\\)frametitle)(\{)(.*)(\})]
+                (3 punctuation.definition.arguments.begin.latex)
+                (4 entity.name.function.frame.latex)
+                (5 punctuation.definition.arguments.end.latex)
+                (1 support.function.frametitle.latex)
+                (2 punctuation.definition.function.latex))))
+    (include text.tex.latex))

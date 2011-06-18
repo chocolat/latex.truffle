@@ -1,0 +1,17 @@
+(trigger
+    (key [[alt][cmd].]))
+
+(name [Environment Closer — \end{…}])
+
+(only-in text.tex.latex)
+
+(input document)
+
+(output after-selected)
+
+(save nothing)
+
+(script [# This command inserts any missing \end{environment} at the caret position
+# It is analogous with Insert Closing Tag for HTML.
+
+ruby -- "$TM_SUPPORT_PATH/bin/checknest.rb" '\\begin(?>\{(.+?)\})' '\\end(?>\{(.+?)\})' '\end{$1}' -n$TM_LINE_NUMBER])

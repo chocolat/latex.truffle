@@ -1,0 +1,9 @@
+(name Listing)
+
+(trigger
+    (tab listing))
+
+(only-in text.tex.latex)
+
+(snippet [%{1="Listing"}~\ref{%{2="lst"}}%{0}
+])

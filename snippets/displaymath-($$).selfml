@@ -1,0 +1,11 @@
+(name [Display Math — \[ … \]])
+
+(trigger
+    (key [[ctrl][shift]M])
+    (tab $$))
+
+(only-in text.tex.latex)
+
+(snippet [\[
+	%{TM_SELECTED_TEXT}%{1}
+\]])

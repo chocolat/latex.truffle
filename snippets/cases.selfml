@@ -1,0 +1,11 @@
+(name Cases)
+
+(trigger
+    (tab cas))
+
+(only-in text.tex.latex)
+
+(snippet [\begin{cases}
+	%{1="equation"}, &\text{ if }%{2="case"}\\
+	%{0}
+\end{cases}])
