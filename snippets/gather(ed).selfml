@@ -5,8 +5,8 @@
 
 (only-in text.tex.latex)
 
-(snippet [\begin{gather`echo $TM_SCOPE|grep math|
-sed -e 's/.*math.*/ed/'`}
+(snippet [\begin{gather%{`echo $TM_SCOPE|grep math|
+sed -e 's/.*math.*/ed/'`}}
 	%{0}
-\end{gather`echo $TM_SCOPE|grep math|
-sed -e 's/.*math.*/ed/'`}])
+\end{gather%{`echo $TM_SCOPE|grep math|
+sed -e 's/.*math.*/ed/'`}}])
